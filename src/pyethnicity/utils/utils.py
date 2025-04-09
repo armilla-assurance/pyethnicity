@@ -5,7 +5,7 @@ from typing import SupportsFloat, SupportsIndex, Union
 
 import polars as pl
 import requests
-from polars._utils.parse_expr_input import parse_as_list_of_expressions
+from polars._utils.parse.expr import parse_into_list_of_expressions
 from polars._utils.wrap import wrap_expr
 from polars.type_aliases import IntoExpr
 
@@ -70,7 +70,7 @@ def _download(path: str):
 
 
 def _sum_horizontal(*exprs: Union[IntoExpr, Iterable[IntoExpr]]) -> pl.Expr:
-    exprs = [wrap_expr(e) for e in parse_as_list_of_expressions(*exprs)]
+    exprs = [wrap_expr(e) for e in parse_into_list_of_expressions(*exprs)]
 
     return (
         pl.when(pl.all_horizontal(e.is_null() for e in exprs))
