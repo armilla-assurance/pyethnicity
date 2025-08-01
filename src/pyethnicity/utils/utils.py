@@ -1,7 +1,7 @@
 import functools
 import math
 from collections.abc import Iterable, Sequence
-from typing import SupportsFloat, SupportsIndex, Union
+from typing import SupportsFloat, SupportsIndex, Union, List
 
 import polars as pl
 import requests
@@ -36,7 +36,7 @@ def _remove_single_chars(name: str) -> str:
     return " ".join(part for part in name.split(" ") if len(part) > 1)
 
 
-def _std_norm(values: Sequence[float]) -> list[float]:
+def _std_norm(values: Sequence[float]) -> List[float]:
     total = sum(values)
 
     return [v / total for v in values]
