@@ -1,7 +1,6 @@
 import functools
 import math
-from collections.abc import Iterable, Sequence
-from typing import SupportsFloat, SupportsIndex, Union, List
+from typing import SupportsFloat, SupportsIndex, Union, List, Sequence, Iterable
 
 import polars as pl
 import requests
