@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import string
-from typing import Literal, Optional
+from typing import Literal, Optional, Dict, List
 
 import cutils
 import numpy as np
@@ -31,7 +31,7 @@ CHUNKSIZE = 1028
 
 class ModelLoader:
     def __init__(self):
-        self._models: dict[Model] = {
+        self._models: Dict[Model, None] = {
             "first_last": None,
             "first_sex": None,
         }
@@ -63,7 +63,7 @@ def _encode_name(name: str, mapper: dict = CHAR_MAPPER, max_len: int = 15):
     return ids
 
 
-def _normalize_name(name: Name) -> list[str]:
+def _normalize_name(name: Name) -> List[str]:
     if isinstance(name, str):
         name = [name]
 
@@ -293,7 +293,7 @@ def predict_race(
     zcta: Optional[Geography] = None,
     tract: Optional[Geography] = None,
     block_group: Optional[Geography] = None,
-    weights: list[float] = [1, 1, 1],
+    weights: List[float] = [1, 1, 1],
     chunksize: int = CHUNKSIZE,
     _model: onnxruntime.InferenceSession = None,
 ) -> pl.DataFrame:

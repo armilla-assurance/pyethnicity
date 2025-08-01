@@ -3,7 +3,7 @@ from __future__ import annotations
 import string
 import typing
 from collections.abc import Iterable
-from typing import Literal, Optional
+from typing import Literal, Optional, Dict, List, Tuple
 
 import polars as pl
 import polars.selectors as cs
@@ -33,7 +33,7 @@ Resource = Literal[
 
 class ResourceLoader:
     def __init__(self):
-        self._resources: dict[Resource, Optional[pl.LazyFrame]] = {
+        self._resources: Dict[Resource, Optional[pl.LazyFrame]] = {
             k: None for k in typing.get_args(Resource)
         }
 
@@ -64,8 +64,8 @@ def _waterfall_join(
     how: WaterfallJoinType = "left",
 ) -> pl.LazyFrame:
     left = left.with_row_count("index")
-    seen: list[int] = []
-    outputs: list[pl.LazyFrame] = []
+    seen: List[int] = []
+    outputs: List[pl.LazyFrame] = []
 
     for col in left_on:
         output = left.filter(~pl.col("index").is_in(seen)).join(
@@ -90,7 +90,7 @@ def _waterfall_fill(exprs: pl.Expr) -> pl.Expr:
     return pl.reduce(function=func, exprs=exprs)
 
 
-def _sort_geo_cols(cols: tuple[str]) -> list[str]:
+def _sort_geo_cols(cols: Tuple[str, ...]) -> List[str]:
     ranks = []
     for col in cols:
         if "block_group" in col:
@@ -706,7 +706,7 @@ def bifsg6(
     )
 
 
-def _calc_correx(female: int, male: int) -> tuple[float, float]:
+def _calc_correx(female: int, male: int) -> Tuple[float, float]:
     ratio_female = female / (male + female)
     ratio_male = 1 - ratio_female
 
@@ -714,7 +714,7 @@ def _calc_correx(female: int, male: int) -> tuple[float, float]:
 
 
 def _get_correction_factor(
-    df: pl.DataFrame, min_years: list[int], max_years: list[int]
+    df: pl.DataFrame, min_years: List[int], max_years: List[int]
 ) -> pl.DataFrame:
     res_min_year = []
     res_max_year = []
