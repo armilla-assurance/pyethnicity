@@ -203,7 +203,7 @@ def predict_race_fl(
             y_pred.extend(_model.run(None, input_feed={input_name: input_})[0])
             pbar.update(len(input_))
 
-    preds: dict[str, list] = {r: [] for r in RACES}
+    preds: Dict[str, List] = {r: [] for r in RACES}
     for row in y_pred:
         for idx, p in enumerate(row):
             preds[RACE_MAPPER[idx]].append(p)
